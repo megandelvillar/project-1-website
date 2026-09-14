@@ -1,0 +1,203 @@
+/* ============================================
+   PAGE BASICS
+   ============================================ */
+
+/* One place to control how big the eyes are. Using a variable means the
+   eye circles and the "nose" between them can share the same size. */
+:root {
+  --eye-size: clamp(220px, 26vw, 380px);
+}
+
+body {
+  margin: 0;
+  font-family: 'Patrick Hand', cursive;
+}
+
+/* The little "window" that only ever shows one full screen at a time. */
+.viewport {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Holds both screens, one after another. Sliding it up by one screen
+   height is what swaps which screen is visible. */
+.slider {
+  transition: transform 0.6s ease;
+}
+
+.slider.up {
+  transform: translateY(-100vh);
+}
+
+
+/* ============================================
+   SCREEN 1: title + eyes
+   Sized with vh/vw and clamp() so it fills any screen, big or small,
+   instead of sitting small in the middle of it.
+   ============================================ */
+
+.scene {
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #F0D7DB;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Eater', cursive;
+  color: #4A1F1A;
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin: 0 0 5vh 0;
+  font-weight: normal;
+}
+
+/* Lines the two eyes and the "nose" up in a row, centered. */
+.eyes-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(15px, 3vw, 40px);
+}
+
+
+/* ============================================
+   EACH "EYE"
+   An eye is a circle made of layers stacked on top of each other:
+   eyelid (top) + shadow (bottom) + label OR content, in that order.
+   ============================================ */
+
+.eye {
+  position: relative; /* lets the layers inside be placed on top of each other */
+  width: var(--eye-size);
+  height: var(--eye-size);
+  border-radius: 50%;
+  background-color: #FAF3F1; /* the "white" of the eye: light, not pure white */
+  overflow: hidden; /* clips every layer into this circle's shape */
+  cursor: pointer;
+  font-size: clamp(1rem, 1.8vw, 1.5rem); /* labels/content inside use "em", so they scale with this */
+}
+
+/* Covers the whole eye by default (closed). */
+.eyelid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #6E3E3E;
+  transition: height 0.4s ease, border-radius 0.4s ease;
+}
+
+/* JS adds the "open" class. Shrinking the height makes the eyelid lift,
+   and curving its bottom corners into a wide arc (instead of a flat
+   edge) makes it read as an eyelid/eyebrow instead of a straight cut. */
+.eye.open .eyelid {
+  height: 38%;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+}
+
+/* A strip of shading along the bottom of every eye, open or closed. */
+.eye-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 18%;
+  background-color: #572F2F;
+}
+
+/* "CAST" / "ABOUT", shown while the eye is closed */
+.eye-label {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  font-family: 'Eater', cursive;
+  font-size: 1.3em;
+  color: #4A1F1A;
+}
+
+/* The revealed content, shown once the eye is open.
+   Padding is a % so it scales along with --eye-size (percentage
+   top/bottom padding is based on the element's width, and since the
+   eye is a circle, width = height, so this lines up correctly). */
+.eye-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 38% 16% 0 16%;
+  margin: 0;
+  color: #111111;
+}
+
+.eye-content p {
+  margin: 0.1em 0;
+}
+
+#cast-content p {
+  font-family: 'Eater', cursive;
+  font-size: 1.1em;
+}
+
+.about-content p {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 0.85em;
+  line-height: 1.25;
+}
+
+/* The curved "nose" between the two eyes. clip-path cuts the rectangle
+   down to a list of points, which is what bends it into a curve that
+   leans left instead of staying a straight bar. */
+.spine {
+  width: calc(var(--eye-size) * 0.3);
+  height: var(--eye-size);
+  background-color: #B99A9D;
+  /* clip-path cuts the rectangle down to this outline. The list of points
+     bulges out on the left side in the middle, which is what gives the
+     curve instead of a straight bar. */
+  clip-path: polygon(
+    32% 0%, 68% 0%,
+    74% 20%, 70% 40%, 58% 60%,
+    50% 100%,
+    30% 82%, 10% 60%, 14% 30%, 26% 12%
+  );
+}
+
+.hint {
+  margin-top: clamp(25px, 4vh, 50px);
+  font-family: 'Eater', cursive;
+  color: #4A1F1A;
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  cursor: pointer;
+}
+
+
+/* ============================================
+   SCREEN 2: the video
+   ============================================ */
+
+.video-section {
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #F0D7DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-placeholder {
+  width: 80%;
+  max-width: 900px;
+  height: 60%;
+  background-color: #000000;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Things Not To Do With a Dead Body</title>
+
+  <!-- Google Fonts: "Eater" (dripping blood look) for the title/labels, "Patrick Hand" for the handwritten about text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Eater&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!--
+    "viewport" only ever shows ONE full screen at a time (like a little window).
+    "slider" holds both screens stacked on top of each other. Double-clicking the
+    hint text slides it up by one screen height, swapping which screen is visible.
+  -->
+  <div class="viewport">
+    <div class="slider" id="slider">
+
+      <!-- SCREEN 1: title + the two clickable "eyes" -->
+      <section class="scene">
+        <h1>Things Not To Do With a Dead Body</h1>
+
+        <div class="eyes-row">
+
+          <!-- Left eye. Click it to open it and reveal the cast list. -->
+          <div class="eye" id="cast-eye">
+            <div class="eyelid"></div>
+            <div class="eye-shadow"></div>
+            <p class="eye-label" id="cast-label">CAST</p>
+            <div class="eye-content" id="cast-content" hidden>
+              <p>Megan</p>
+              <p>Tiffy</p>
+              <p>Sanjana</p>
+            </div>
+          </div>
+
+          <!-- Just a decorative curved shape between the two eyes -->
+          <div class="spine"></div>
+
+          <!-- Right eye. Click it to open it and reveal the about text. -->
+          <div class="eye" id="about-eye">
+            <div class="eyelid"></div>
+            <div class="eye-shadow"></div>
+            <p class="eye-label" id="about-label">ABOUT</p>
+            <div class="eye-content about-content" id="about-content" hidden>
+              <p>what would you do if you found a dead body? this humorous short film is meant to make the audience laugh a bit</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Double-click THIS to slide up to the video screen -->
+        <p class="hint" id="watch-hint">double click to watch<br>&darr;</p>
+      </section>
+
+      <!-- SCREEN 2: sits directly below screen 1; sliding up reveals it -->
+      <section class="video-section">
+        <div class="video-placeholder"></div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    // Makes one eye clickable: clicking it toggles between showing its
+    // round label (closed) and its hidden content (open), like blinking open.
+    function setUpEye(eyeId, labelId, contentId) {
+      var eye = document.getElementById(eyeId);
+      var label = document.getElementById(labelId);
+      var content = document.getElementById(contentId);
+
+      eye.addEventListener('click', function () {
+        var isOpen = eye.classList.contains('open');
+
+        if (isOpen) {
+          eye.classList.remove('open');
+          label.hidden = false;
+          content.hidden = true;
+        } else {
+          eye.classList.add('open');
+          label.hidden = true;
+          content.hidden = false;
+        }
+      });
+    }
+
+    setUpEye('cast-eye', 'cast-label', 'cast-content');
+    setUpEye('about-eye', 'about-label', 'about-content');
+
+    // Double-clicking the hint text slides the whole scene up one screen
+    // height, which reveals the video placeholder underneath it.
+    var hint = document.getElementById('watch-hint');
+    var slider = document.getElementById('slider');
+
+    hint.addEventListener('dblclick', function () {
+      slider.classList.toggle('up');
+    });
+  </script>
+
+</body>
+</html>

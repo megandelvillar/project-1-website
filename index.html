@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Things Not To Do With a Dead Body</title>
 
-  <!-- Google Fonts: "Eater" (dripping blood look) for the title/labels, "Patrick Hand" for the handwritten about text -->
+  <!-- google fonts: "eater" (dripping blood look) for the title/labels, "patrick hand" for the handwritten about text -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Eater&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -15,23 +15,31 @@
 <body>
 
   <!--
-    "viewport" only ever shows ONE full screen at a time (like a little window).
-    "slider" holds both screens stacked on top of each other. Double-clicking the
-    hint text slides it up by one screen height, swapping which screen is visible.
+    "viewport" only shows one full screen at a time, like a little window.
+    "slider" holds both screens stacked on top of each other and slides up
+    by one screen height to swap which one you see. no scrolling the page,
+    just this one div moving.
   -->
   <div class="viewport">
     <div class="slider" id="slider">
 
-      <!-- SCREEN 1: title + the two clickable "eyes" -->
+      <!-- screen 1: title + the two clickable "eyes" -->
       <section class="scene">
         <h1>Things Not To Do With a Dead Body</h1>
 
         <div class="eyes-row">
 
-          <!-- Left eye. Click it to open it and reveal the cast list. -->
+          <!-- left eye. click it to open it and reveal the cast list -->
           <div class="eye" id="cast-eye">
-            <!-- content goes FIRST so the eyelid/shadow paint on top of it,
-                 and scrolled text disappears behind them instead of over them -->
+            <!--
+              content goes first in the html on purpose, before eyelid/shadow.
+              asked ai: "why is my text showing on top of a div that's supposed
+              to be covering it" - it explained that elements later in the html
+              paint on top of earlier ones, so whichever comes last wins. moving
+              this div up here means the eyelid and shadow now paint over it
+              instead of under it, so scrolled text disappears behind them
+              instead of floating on top.
+            -->
             <div class="eye-content" id="cast-content" hidden>
               <p>Megan</p>
               <p>Tiffy</p>
@@ -42,13 +50,12 @@
             <p class="eye-label" id="cast-label">CAST</p>
           </div>
 
-          <!-- Just a decorative curved shape between the two eyes -->
+          <!-- just a decorative curved shape between the two eyes, like a nose -->
           <div class="spine"></div>
 
-          <!-- Right eye. Click it to open it and reveal the about text. -->
+          <!-- right eye. click it to open it and reveal the about text -->
           <div class="eye" id="about-eye">
-            <!-- content goes FIRST so the eyelid/shadow paint on top of it,
-                 and scrolled text disappears behind them instead of over them -->
+            <!-- same trick as the cast eye, content stays behind the eyelid/shadow -->
             <div class="eye-content about-content" id="about-content" hidden>
               <p>The piece follows a girl who unexpectedly encounters a dead body and, instead of reacting with fear or respect, begins interacting with it in increasingly strange and inappropriate ways. What starts as curiosity gradually becomes a series of absurd actions that she would obviously never do if someone were watching.</p>
               <p>The humor comes from treating something deeply inappropriate as if it were completely normal. The situation becomes more and more ridiculous, while the girl seems increasingly comfortable with crossing boundaries simply because she believes there are no consequences.</p>
@@ -66,12 +73,21 @@
 
         </div>
 
-        <!-- Double-click THIS to slide up to the video screen -->
+        <!-- double-click this to slide up to the video screen -->
         <p class="hint" id="watch-hint">double click to watch<br>&darr;</p>
       </section>
 
-      <!-- SCREEN 2: sits directly below screen 1; sliding up reveals it -->
+      <!-- screen 2: sits directly below screen 1 in the html, sliding up reveals it -->
       <section class="video-section">
+        <!--
+          embedding a video from google drive instead of uploading the actual
+          file, since github blocks anything over 100mb and mine was way over.
+          asked ai: "how do i add a video from google drive to my html
+          website" - it explained you can't just link the normal drive url,
+          you have to swap /view for /preview and put that in an iframe, plus
+          the drive file has to be shared as "anyone with the link" or it
+          just shows a login screen instead of the video.
+        -->
         <iframe
           class="video-placeholder"
           src="https://drive.google.com/file/d/1r6Gp9yqaYfCp1s82eDbY3yTuZ-kOXU8r/preview"
@@ -86,8 +102,10 @@
   </div>
 
   <script>
-    // Makes one eye clickable: clicking it toggles between showing its
-    // round label (closed) and its hidden content (open), like blinking open.
+    // makes one eye clickable: toggles between showing its round label
+    // (closed) and its hidden content (open), like an eye blinking open.
+    // used this tutorial to understand addEventListener and how to toggle
+    // things with it: https://www.youtube.com/watch?v=lq9LFdKNVAU
     function setUpEye(eyeId, labelId, contentId) {
       var eye = document.getElementById(eyeId);
       var label = document.getElementById(labelId);
@@ -111,8 +129,8 @@
     setUpEye('cast-eye', 'cast-label', 'cast-content');
     setUpEye('about-eye', 'about-label', 'about-content');
 
-    // Double-clicking the hint text slides the whole scene up one screen
-    // height, which reveals the video placeholder underneath it.
+    // double-clicking the hint text slides the whole scene up one screen
+    // height, which reveals the video underneath it.
     var hint = document.getElementById('watch-hint');
     var slider = document.getElementById('slider');
 
@@ -120,7 +138,7 @@
       slider.classList.toggle('up');
     });
 
-    // Clicking "back to homepage" slides the scene back down to the eyes.
+    // clicking "back to homepage" slides the scene back down to the eyes
     var backLink = document.getElementById('back-link');
 
     backLink.addEventListener('click', function () {

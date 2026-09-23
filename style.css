@@ -1,9 +1,10 @@
 /* ============================================
-   PAGE BASICS
+   page basics
    ============================================ */
 
-/* One place to control how big the eyes are. Using a variable means the
-   eye circles and the "nose" between them can share the same size. */
+/* one place to control how big the eyes are. using a variable means the
+   eye circles and the nose between them can share the same size instead
+   of repeating the same clamp() everywhere. */
 :root {
   --eye-size: clamp(260px, 32vw, 460px);
 }
@@ -13,14 +14,14 @@ body {
   font-family: 'Patrick Hand', cursive;
 }
 
-/* The little "window" that only ever shows one full screen at a time. */
+/* the little window that only ever shows one full screen at a time */
 .viewport {
   height: 100vh;
   overflow: hidden;
 }
 
-/* Holds both screens, one after another. Sliding it up by one screen
-   height is what swaps which screen is visible. */
+/* holds both screens, one after another. sliding it up by one screen
+   height is what swaps which one is visible. */
 .slider {
   transition: transform 0.6s ease;
 }
@@ -31,9 +32,11 @@ body {
 
 
 /* ============================================
-   SCREEN 1: title + eyes
-   Sized with vh/vw and clamp() so it fills any screen, big or small,
-   instead of sitting small in the middle of it.
+   screen 1: title + eyes
+   sized with vh/vw and clamp() so it fills any screen, big or small,
+   instead of sitting small in the middle of it. good tutorial on clamp()
+   and responsive sizing without media queries:
+   https://www.youtube.com/watch?v=w11cMyzKQ2A
    ============================================ */
 
 .scene {
@@ -56,7 +59,9 @@ h1 {
   font-weight: normal;
 }
 
-/* Lines the two eyes and the "nose" up in a row, centered. */
+/* lines the two eyes and the nose up in a row, centered. flexbox tutorial
+   i used to get display: flex / justify-content / align-items to click:
+   https://www.youtube.com/watch?v=u044iM9xsWU */
 .eyes-row {
   display: flex;
   justify-content: center;
@@ -66,9 +71,10 @@ h1 {
 
 
 /* ============================================
-   EACH "EYE"
-   An eye is a circle made of layers stacked on top of each other:
-   eyelid (top) + shadow (bottom) + label OR content, in that order.
+   each "eye"
+   an eye is a circle made of layers stacked on top of each other:
+   content (bottom) + eyelid + shadow + label (top). see the html for
+   why content has to go underneath.
    ============================================ */
 
 .eye {
@@ -76,13 +82,13 @@ h1 {
   width: var(--eye-size);
   height: var(--eye-size);
   border-radius: 50%;
-  background-color: #FAF3F1; /* the "white" of the eye: light, not pure white */
+  background-color: #FAF3F1; /* the "white" of the eye, light but not pure white */
   overflow: hidden; /* clips every layer into this circle's shape */
   cursor: pointer;
-  font-size: clamp(1rem, 1.8vw, 1.5rem); /* labels/content inside use "em", so they scale with this */
+  font-size: clamp(1rem, 1.8vw, 1.5rem); /* labels/content inside use em, so they scale off this */
 }
 
-/* Covers the whole eye by default (closed). */
+/* covers the whole eye by default (closed) */
 .eyelid {
   position: absolute;
   top: 0;
@@ -93,15 +99,15 @@ h1 {
   transition: height 0.4s ease, border-radius 0.4s ease;
 }
 
-/* JS adds the "open" class. Shrinking the height makes the eyelid lift,
-   and curving its bottom corners into a wide arc (instead of a flat
-   edge) makes it read as an eyelid/eyebrow instead of a straight cut. */
+/* js adds the "open" class. shrinking the height makes the eyelid lift,
+   and curving its bottom corners into a wide arc (instead of a flat edge)
+   makes it read as an eyelid/eyebrow instead of a straight cut. */
 .eye.open .eyelid {
   height: 38%;
   border-radius: 0 0 50% 50% / 0 0 100% 100%;
 }
 
-/* A strip of shading along the bottom of every eye, open or closed. */
+/* a strip of shading along the bottom of every eye, open or closed */
 .eye-shadow {
   position: absolute;
   bottom: 0;
@@ -111,7 +117,7 @@ h1 {
   background-color: #572F2F;
 }
 
-/* "CAST" / "ABOUT", shown while the eye is closed */
+/* "cast" / "about", shown while the eye is closed */
 .eye-label {
   position: absolute;
   top: 42%;
@@ -123,13 +129,12 @@ h1 {
   color: #4A1F1A;
 }
 
-/* The revealed content, shown once the eye is open.
-   Padding is a % so it scales along with --eye-size (percentage
-   top/bottom padding is based on the element's width, and since the
-   eye is a circle, width = height, so this lines up correctly).
-   height stays fixed and overflow-y: auto turns on scrolling, so any
-   text too long to fit just scrolls inside the circle instead of
-   spilling out — no JavaScript needed, the browser handles it. */
+/* the revealed content, shown once the eye is open. padding is a % so it
+   scales along with --eye-size (% top/bottom padding is based on the
+   element's width, and since the eye is a circle, width = height, so
+   this still lines up right). overflow-y: auto is what makes long text
+   scrollable inside a fixed circle instead of spilling out, no js needed
+   for that part, the browser just handles it. */
 .eye-content {
   position: absolute;
   top: 0;
@@ -141,12 +146,18 @@ h1 {
   margin: 0;
   color: #111111;
   overflow-y: auto;
-  scrollbar-width: none; /* Firefox: hide the scrollbar, keep scrolling */
-  -ms-overflow-style: none; /* old Edge/IE: same */
+  /*
+    asked ai: "how do i make a div scrollable but hide the scrollbar so it
+    doesn't show" - turns out there's no single css property for this, every
+    browser does it differently, that's why there's 3 rules for basically
+    the same thing:
+  */
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* old edge/ie */
 }
 
 .eye-content::-webkit-scrollbar {
-  display: none; /* Chrome/Safari: hide the scrollbar, keep scrolling */
+  display: none; /* chrome/safari */
 }
 
 .eye-content p {
@@ -164,10 +175,17 @@ h1 {
   line-height: 1.25;
 }
 
-/* The curved "nose" between the two eyes. clip-path cuts the rectangle
-   down to a list of points: wide at the top, pinched in at the bridge
-   (the middle), then flared back out at the bottom like nostrils —
-   a ")(" outline, traced as one shape. */
+/*
+  the curved "nose" between the two eyes, made from one div using
+  clip-path. asked ai: "how do i make one css shape look like a nose
+  outline, narrow in the middle and wider on the top and bottom" - it
+  explained clip-path: polygon() and how each pair of numbers is one x,y
+  point around the shape, connected in order. moving the middle points
+  closer together is what pinches in the "bridge," and moving the lower
+  ones further apart flares it back out like nostrils. also found this
+  short one useful for just understanding clip-path in general:
+  https://www.youtube.com/watch?v=oFW7dXpFhjI
+*/
 .spine {
   width: calc(var(--eye-size) * 0.34);
   height: var(--eye-size);
@@ -191,7 +209,7 @@ h1 {
 
 
 /* ============================================
-   SCREEN 2: the video
+   screen 2: the video
    ============================================ */
 
 .video-section {
@@ -212,7 +230,7 @@ h1 {
   background-color: #000000;
 }
 
-/* Bottom-left text link on the video screen, styled like a smaller title */
+/* bottom-left text link on the video screen, styled like a smaller title */
 .back-link {
   position: absolute;
   bottom: clamp(20px, 4vh, 40px);

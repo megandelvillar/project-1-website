@@ -193,6 +193,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* lets "back to homepage" sit in a corner of this section */
 }
 
 .video-placeholder {
@@ -200,4 +201,16 @@ h1 {
   max-width: 900px;
   height: 60%;
   background-color: #000000;
+}
+
+/* Bottom-left text link on the video screen, styled like a smaller title */
+.back-link {
+  position: absolute;
+  bottom: clamp(20px, 4vh, 40px);
+  left: clamp(20px, 4vw, 50px);
+  margin: 0;
+  font-family: 'Eater', cursive;
+  color: #4A1F1A;
+  font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+  cursor: pointer;
 }

@@ -61,15 +61,14 @@
 
       <!-- SCREEN 2: sits directly below screen 1; sliding up reveals it -->
       <section class="video-section">
-    <div class="video-section">
-      <iframe
-        class="video-placeholder"
-        src="https://drive.google.com/file/d/1r6Gp9yqaYfCp1s82eDbY3yTuZ-kOXU8r/preview"
-        style="border: none;"
-        allow="autoplay"
-        allowfullscreen
-      ></iframe>
-    </div>
+        <iframe
+          class="video-placeholder"
+          src="https://drive.google.com/file/d/1r6Gp9yqaYfCp1s82eDbY3yTuZ-kOXU8r/preview"
+          style="border: none;"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+        <p class="back-link" id="back-link">back to homepage</p>
       </section>
 
     </div>
@@ -108,6 +107,13 @@
 
     hint.addEventListener('dblclick', function () {
       slider.classList.toggle('up');
+    });
+
+    // Clicking "back to homepage" slides the scene back down to the eyes.
+    var backLink = document.getElementById('back-link');
+
+    backLink.addEventListener('click', function () {
+      slider.classList.remove('up');
     });
   </script>
 

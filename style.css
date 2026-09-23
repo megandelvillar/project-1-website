@@ -141,6 +141,12 @@ h1 {
   margin: 0;
   color: #111111;
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox: hide the scrollbar, keep scrolling */
+  -ms-overflow-style: none; /* old Edge/IE: same */
+}
+
+.eye-content::-webkit-scrollbar {
+  display: none; /* Chrome/Safari: hide the scrollbar, keep scrolling */
 }
 
 .eye-content p {

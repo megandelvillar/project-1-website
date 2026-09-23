@@ -155,20 +155,19 @@ h1 {
 }
 
 /* The curved "nose" between the two eyes. clip-path cuts the rectangle
-   down to a list of points, which is what bends it into a curve that
-   leans left instead of staying a straight bar. */
+   down to a list of points: wide at the top, pinched in at the bridge
+   (the middle), then flared back out at the bottom like nostrils —
+   a ")(" outline, traced as one shape. */
 .spine {
-  width: calc(var(--eye-size) * 0.3);
+  width: calc(var(--eye-size) * 0.34);
   height: var(--eye-size);
   background-color: #B99A9D;
-  /* clip-path cuts the rectangle down to this outline. The list of points
-     bulges out on the left side in the middle, which is what gives the
-     curve instead of a straight bar. */
   clip-path: polygon(
-    32% 0%, 68% 0%,
-    74% 20%, 70% 40%, 58% 60%,
-    50% 100%,
-    30% 82%, 10% 60%, 14% 30%, 26% 12%
+    28% 0%, 72% 0%,
+    58% 42%,
+    80% 78%, 66% 100%,
+    34% 100%, 20% 78%,
+    42% 42%
   );
 }
 

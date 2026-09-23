@@ -30,14 +30,16 @@
 
           <!-- Left eye. Click it to open it and reveal the cast list. -->
           <div class="eye" id="cast-eye">
-            <div class="eyelid"></div>
-            <div class="eye-shadow"></div>
-            <p class="eye-label" id="cast-label">CAST</p>
+            <!-- content goes FIRST so the eyelid/shadow paint on top of it,
+                 and scrolled text disappears behind them instead of over them -->
             <div class="eye-content" id="cast-content" hidden>
               <p>Megan</p>
               <p>Tiffy</p>
               <p>Sanjana</p>
             </div>
+            <div class="eyelid"></div>
+            <div class="eye-shadow"></div>
+            <p class="eye-label" id="cast-label">CAST</p>
           </div>
 
           <!-- Just a decorative curved shape between the two eyes -->
@@ -45,9 +47,8 @@
 
           <!-- Right eye. Click it to open it and reveal the about text. -->
           <div class="eye" id="about-eye">
-            <div class="eyelid"></div>
-            <div class="eye-shadow"></div>
-            <p class="eye-label" id="about-label">ABOUT</p>
+            <!-- content goes FIRST so the eyelid/shadow paint on top of it,
+                 and scrolled text disappears behind them instead of over them -->
             <div class="eye-content about-content" id="about-content" hidden>
               <p>The piece follows a girl who unexpectedly encounters a dead body and, instead of reacting with fear or respect, begins interacting with it in increasingly strange and inappropriate ways. What starts as curiosity gradually becomes a series of absurd actions that she would obviously never do if someone were watching.</p>
               <p>The humor comes from treating something deeply inappropriate as if it were completely normal. The situation becomes more and more ridiculous, while the girl seems increasingly comfortable with crossing boundaries simply because she believes there are no consequences.</p>
@@ -58,6 +59,9 @@
               <p>The absurdity is therefore not just a tool for delivering a message; it is the message's contradiction. We instinctively want to find meaning, logic, or morality in what we watch, even when there may be none. The audience is left wondering whether they were supposed to understand something, laugh at it, feel uncomfortable, or simply accept that something completely nonsensical happened.</p>
               <p>Ultimately, the piece asks less "What does this mean?" and more "Why do we feel the need for it to mean something?"</p>
             </div>
+            <div class="eyelid"></div>
+            <div class="eye-shadow"></div>
+            <p class="eye-label" id="about-label">ABOUT</p>
           </div>
 
         </div>

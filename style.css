@@ -5,7 +5,7 @@
 /* One place to control how big the eyes are. Using a variable means the
    eye circles and the "nose" between them can share the same size. */
 :root {
-  --eye-size: clamp(220px, 26vw, 380px);
+  --eye-size: clamp(260px, 32vw, 460px);
 }
 
 body {
